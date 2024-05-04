@@ -41,17 +41,17 @@ class profesModel():
                     return {'message': "El profe no esta registrado como guia o esta inactivo"}
                 else:
                     ProfeG = profeGuia(resultset[0], resultset[1], resultset[2], resultset[3], resultset[4],
-                                       resultset[6], resultset[5], resultset[7], resultset[8], resultset[9])
+                                       resultset[6], resultset[5], resultset[7],resultset[8],resultset[9])
             connection.close()
             return ProfeG.to_JSON()
         except Exception as ex:
             raise Exception(ex)
-
+        
     @classmethod
     def get_detalleEquipo(self):
         try:
             connection = get_connection()
-            grupos = []
+            grupos=[]
             with connection.cursor() as cursor:
 
                 cursor.execute("call obtenerEquipos()")
@@ -61,7 +61,8 @@ class profesModel():
                     connection.close()
                     return {'message': "El profe no esta registrado como guia o esta inactivo"}
                 else:
-                    listaProfe = []
+                    listaProfe=[]
+                    idE=1
                     total_rows = len(resultset)
 
                     # Itera sobre el resultset
@@ -86,3 +87,4 @@ class profesModel():
             return grupos
         except Exception as ex:
             raise Exception(ex)
+
