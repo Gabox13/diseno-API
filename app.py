@@ -1,5 +1,5 @@
 from flask import Flask
-from routes import Profesores
+from src.routes import Profesores
 
 
 app = Flask(__name__)
