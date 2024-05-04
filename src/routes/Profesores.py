@@ -1,6 +1,6 @@
 from flask import Blueprint, jsonify
 
-from models.profesModel import profesModel
+from src.models.profesModel import profesModel
 
 main = Blueprint("profesores_blueprint", __name__)
 
