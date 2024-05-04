@@ -21,3 +21,10 @@ def get_profeGuia(correo):
         return profe
     except Exception as ex:
         return jsonify({'message': str(ex)}),500
+@main.route('/detalle')
+def get_detalleEquipo():
+    try:
+        integrantes = profesModel.get_detalleEquipo()
+        return jsonify(integrantes)
+    except Exception as ex:
+        return jsonify({'message': str(ex)}),500
