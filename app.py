@@ -8,9 +8,6 @@ app = Flask(__name__)
 def hello_world():
     return 'Hello world!'
 
-@app.route('/prueba')
-def prueba1():
-    return 'por que esta picha no sirve'
 
 def page_not_found(error):
     return "<h1>Pagina no encontrada</h1>", 404
@@ -21,4 +18,4 @@ if __name__ == '__main__':
     app.register_blueprint(Profesores.main, url_prefix='/profes')
 
     app.register_error_handler(404, page_not_found)
-    app.run(host='0.0.0.0',port=8000,debug=True)
+    app.run(debug=True)
