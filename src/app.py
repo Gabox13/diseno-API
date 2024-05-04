@@ -1,9 +1,9 @@
 from flask import Flask
 from routes import Profesores
-from flask_cors import CORS
+
 
 app = Flask(__name__)
-CORS(app)
+
 
 def page_not_found(error):
     return "<h1>Pagina no encontrada</h1>", 404
