@@ -32,12 +32,28 @@ class profesModel():
 
             with connection.cursor() as cursor:
 
-                cursor.execute("""select correo,nombreCompleto,telefono,celular,foto,sede.nombre,
-                               guia.contraseña,guia.codigoSede from profesor
-                               inner join guia on guia.idProfesor  = profesor.correo
-                               inner join sede on sede.idSede = profesor.idSede
-                               where guia.idProfesor = %s and guia.activo = 1 and profesor.activo=1
-                               """, (correo,))
+                cursor.execute("call obtenerProfesor(%s)", (correo,))
+                resultset = cursor.fetchone()
+
+                if resultset == None:
+                    connection.close()
+                    return {'message': "El profe no esta registrado como guia o esta inactivo"}
+                else:
+                    ProfeG = profeGuia(resultset[0], resultset[1], resultset[2], resultset[3], resultset[4],
+                                       resultset[6], resultset[5], resultset[7],resultset[8],resultset[9])
+            connection.close()
+            return ProfeG.to_JSON()
+        except Exception as ex:
+            raise Exception(ex)
+        
+    @classmethod
+    def get_detalleEquipo(self, idEquipo):
+        try:
+            connection = get_connection()
+
+            with connection.cursor() as cursor:
+
+                cursor.execute("call obtenerEquipos", (correo,))
                 resultset = cursor.fetchone()
 
                 if resultset == None:
@@ -50,3 +66,4 @@ class profesModel():
             return ProfeG.to_JSON()
         except Exception as ex:
             raise Exception(ex)
+

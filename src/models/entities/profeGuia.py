@@ -1,24 +1,28 @@
 class profeGuia():
 
-    def __init__(self, correo, nombre, telefono, celular, foto, nombreSede, contraseña, codigoSede):
+    def __init__(self, correo,nombreCompleto,activo,telefono,celular,idSede,foto=None,contraseña=None,codigoSede=None,coordinador=None):
         self.correo = correo
-        self.nombre = nombre
+        self.nombreCompleto = nombreCompleto
+        self.activo = activo
         self.telefono = telefono
         self.celular = celular
+        self.idSede = idSede
         self.foto = foto
-        self.nombreSede = nombreSede
         self.contraseña = contraseña
         self.codigoSede = codigoSede
+        self.coordinador = coordinador
 
     def to_JSON(self):
         return {
-            'correo': self.correo,
-            'nombre': self.nombre,
-            'telefono': self.telefono,
-            'celular': self.celular,
-            'foto': self.foto,
-            'nombreSede': self.nombreSede,
-            'contraseña': self.contraseña,
-            'codigoSede': self.codigoSede
+            "correo":self.correo,
+            "nombreCompleto":self.nombreCompleto,
+            "activo":self.activo,
+            "telefono":self.telefono,
+            "celular":self.celular,
+            "idSede":self.idSede,
+            "foto":self.foto,
+            "contraseña":self.contraseña,
+            "codigoSede":self.codigoSede,
+            "coordinador":self.coordinador
 
         }
