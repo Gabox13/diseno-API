@@ -8,6 +8,10 @@ app = Flask(__name__)
 def hello_world():
     return 'Hello world!'
 
+@app.route('/prueba')
+def prueba1():
+    return {"message":"por que no sirve esta picha"}
+
 def page_not_found(error):
     return "<h1>Pagina no encontrada</h1>", 404
 
