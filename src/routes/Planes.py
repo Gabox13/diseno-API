@@ -13,4 +13,12 @@ def get_PlanesXEquipo():
         return jsonify(planes)
     except Exception as ex:
         return jsonify({'message': str(ex)}),500
+@main.route('/actividades/<id>')
+def get_ActividadesXPlan(id):
+    try:
+       
+        planes = planesModel.get_ActividadesXPlan(id)
+        return jsonify(planes)
+    except Exception as ex:
+        return jsonify({'message': str(ex)}),500
 
