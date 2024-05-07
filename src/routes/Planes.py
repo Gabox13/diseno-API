@@ -68,7 +68,7 @@ def addActividad():
 @main.route('/update/actividad', methods=['PUT'])
 def updateActividad():
     try:
-        idActividad =int(request.json['idActividad'])
+        idActividad =int(request.json['valoresGenerales']['idActividad'])
         nombre = request.json['valoresGenerales']['nombre']
         semana = int(request.json['valoresGenerales']['semana'])
         link = request.json['valoresGenerales']['link']
