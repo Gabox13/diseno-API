@@ -182,13 +182,13 @@ class planesModel():
             raise Exception(ex)
 
     @classmethod
-    def modificarActividad(self, idActividad, nombre, semana, link, tipo, modalidad, fechaPub, fechaRea, afiche, estado, observacion, fechaCancel, participantes):
+    def modificarActividad(self, act):
         try:
             connection = get_connection()
             with connection.cursor() as cursor:
-                cursor.execute("""call updateActividad(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s);""", (idActividad, nombre, semana, link, tipo, modalidad, 
-                                                                fechaPub, fechaRea, afiche, estado, 
-                                                                observacion, fechaCancel, participantes))
+                cursor.execute("""call updateActividad(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s);""", (act.idActividad, act.nombre, act.semana, act.link, act.tipo, act.modalidad, 
+                                                                act.fechaPublicacion, act.fechaRealizacion, act.afiche, act.estado, 
+                                                                act.descripcion_cancelacion, act.fechaCancelacion, ""))
                 affected_rows = cursor.rowcount
                 connection.commit()
             connection.close()
@@ -293,6 +293,32 @@ class planesModel():
             connection = get_connection()
             with connection.cursor() as cursor:
                 cursor.execute("""call deleteRespuestasxComentario(%s); call deleteComentario(%s, %s);""", (idComentario, correo, idActividad))
+                affected_rows = cursor.rowcount
+                connection.commit()
+            connection.close()
+            return affected_rows
+        except Exception as ex:
+            raise Exception(ex)
+
+    @classmethod
+    def añadirFotos(self, idActividad, foto):
+        try:
+            connection = get_connection()
+            with connection.cursor() as cursor:
+                cursor.execute("""call addImagen(%s, %s);""", (idActividad, foto))
+                affected_rows = cursor.rowcount
+                connection.commit()
+            connection.close()
+            return affected_rows
+        except Exception as ex:
+            raise Exception(ex)
+    
+    @classmethod
+    def quitarFotos(self, idActividad):
+        try:
+            connection = get_connection()
+            with connection.cursor() as cursor:
+                cursor.execute("""call deleteImagen(%s);""", (idActividad))
                 affected_rows = cursor.rowcount
                 connection.commit()
             connection.close()

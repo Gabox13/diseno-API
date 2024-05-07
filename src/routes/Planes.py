@@ -80,23 +80,32 @@ def updateActividad():
         estado = request.json['valoresGenerales']['estado']
         fechaRec = request.json['valoresGenerales']['FechaRecordatorio']
         fechaCancelacion = request.json['fechaCancelacion']
-        responsables = request.json['valoresGenerales']['Responsables']
         fotos = request.json['fotos']
         observacion = request.json['descripcionCancelacion']
+        profesRespons = request.json['profesoresAgregados']
+        profesResponsQ = request.json['profesoresEliminados']
+        fechasRecAgregar = request.json['fechasAgregadas']
+        fechasRecQ = request.json['fechasEliminadas']
 
         act = ActividadFactory.crear_actividad(idActividad,nombre,semana,link,tipo,modalidad
                  ,fechaPub,fechaRea,afiche,estado,fechaRec, descripcion_cancelacion=observacion, fecha_cancelacion=fechaCancelacion)
         affected_rows = planesModel.modificarActividad(act)
 
-        for respon in responsables:
+        for responq in profesResponsQ:
+            affected_rows += planesModel.quitarResponsable(responq['correo'], idActividad)
+
+        for respon in profesRespons:
             affected_rows += planesModel.añadirResponsable(respon['correo'], idActividad)
-        for fecR in fechaRec:
+       
+        for fecRq in fechasRecQ:
+            affected_rows += planesModel.borrarFechaRecordatorio(fecRq['idFecRec'])
+
+        for fecR in fechasRecAgregar:
             affected_rows += planesModel.añadirFechaRecordatorio(idActividad, fecR['fechaR'])
         
-        for responq in responsablesQ:
-            affected_rows += planesModel.quitarResponsable(responq['correo'], idActividad)
-        for fecRq in fechaRec:
-            affected_rows += planesModel.borrarFechaRecordatorio(fecRq['idFechaR'])
+        planesModel.quitarFotos(idActividad)
+        for foto in fotos:
+            affected_rows += planesModel.añadirFotos(idActividad, foto['ruta'])
 
         if affected_rows > 0:
             return jsonify(idActividad)
