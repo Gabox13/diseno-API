@@ -67,14 +67,16 @@ class excelModel():
         
      
     @classmethod
-    def recuperar_Excel(self,nombreExcel):
+    def recuperar_Excel(self):
         try:
             connection = get_connection()
             estudiantes = []
 
             with connection.cursor() as cursor:
 
-                cursor.execute('call obtenerExcelxEstudiantes(%s)', (nombreExcel,))
+                cursor.execute('SELECT * FROM excelList WHERE id = LAST_INSERT_ID();')
+                nombreExcel=cursor.fetchone()
+                cursor.execute('call obtenerExcelxEstudiantes(%s)', (nombreExcel[0],))
                 resultset = cursor.fetchall()
                 print(resultset)
                 for row in resultset:

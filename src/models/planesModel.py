@@ -166,16 +166,18 @@ class planesModel():
             raise Exception(ex)
 
     @classmethod
-    def añadirActividad(self,nombre, semana, link, tipo, modalidad, fechaPub, fechaRea, afiche, estado,idPlan):
+    def añadirActividad(self,act,idPlan):
         try:
             connection = get_connection()
             with connection.cursor() as cursor:
-                cursor.execute("""call addActividad(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s);""", (nombre, semana, link, tipo, modalidad, 
-                                                                fechaPub, fechaRea, afiche, estado, idPlan))
+                cursor.execute("""call addActividad(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s);""", (act.nombre, act.semana, act.direccion, act.tipo, act.modalidad, 
+                                                                act.fechaPublicacion, act.fechaRealizacion, act.afiche, act.estado, idPlan))
                 affected_rows = cursor.rowcount
                 connection.commit()
+                cursor.execute("""select last_insert_id();""")
+                result = cursor.fetchall()
             connection.close()
-            return affected_rows
+            return affected_rows, result[0][0]
         except Exception as ex:
             raise Exception(ex)
 

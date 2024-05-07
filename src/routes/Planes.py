@@ -1,6 +1,7 @@
 from flask import Blueprint, jsonify,request
 import simplejson as json
 from src.models.entities.actividad import actividad
+from src.models.entities.ActividadFactory import ActividadFactory
 from src.models.planesModel import planesModel
 
 main = Blueprint("planes_blueprint", __name__)
@@ -36,21 +37,27 @@ def get_ActividadProxima():
 def addActividad():
     try:
 
-        nombre = request.json['nombre']
-        semana = int(request.json['semana'])
-        link = request.json['link']
-        tipo = request.json['tipo']
-        modalidad = request.json['modalidad']
-        fechaPub = request.json['fechaPublicacion']
-        fechaRea = request.json['fechaRealizacion']
-        afiche = request.json['afiche']
-        estado = request.json['estado']
-        observacion = request.json['observacion']
-        fechaCancel = request.json['fechaCancelacion']
-        participantes = request.json['participantes']
-        idPlan = int(request.json['idPlan'])
+        nombre = request.json['valoresGenerales']['nombre']
+        semana = int(request.json['valoresGenerales']['semana'])
+        link = request.json['valoresGenerales']['link']
+        tipo = request.json['valoresGenerales']['tipo']
+        modalidad = request.json['valoresGenerales']['modalidad']
+        fechaPub = request.json['valoresGenerales']['fechaPublicacion']
+        fechaRea = request.json['valoresGenerales']['fechaRealizacion']
+        afiche = request.json['valoresGenerales']['afiche']
+        estado = request.json['valoresGenerales']['estado']
+        idPlan = int(request.json['valoresGenerales']['idPlan'])
+        fechaRec = request.json['valoresGenerales']['FechaRecordatorio']
+        responsables = request.json['valoresGenerales']['Responsables']
+        
+        act = ActividadFactory.crear_actividad(1000,nombre,semana,link,tipo,modalidad
+                 ,fechaPub,fechaRea,afiche,estado,fechaRec)
+        affected_rows, idActividad = planesModel.añadirActividad(act, idPlan)
 
-        affected_rows = planesModel.añadirActividad(nombre, semana, link, tipo, modalidad, fechaPub, fechaRea, afiche, estado, idPlan)
+        for respon in responsables:
+            affected_rows += planesModel.añadirResponsable(respon['correo'], idActividad)
+        for fecR in fechaRec:
+            affected_rows += planesModel.añadirFechaRecordatorio(idActividad, fecR['fechaR'])
         if affected_rows > 0:
             return jsonify(nombre)
         else:
@@ -64,7 +71,7 @@ def updateActividad():
         idActividad =int(request.json['idActividad'])
         nombre = request.json['nombre']
         semana = int(request.json['semana'])
-        link = request.json['link']
+        link = request.json['direccion']
         tipo = request.json['tipo']
         modalidad = request.json['modalidad']
         fechaPub = request.json['fechaPublicacion']
@@ -84,19 +91,6 @@ def updateActividad():
     except Exception as ex:
         return jsonify({'message': str(ex)}),500
     
-@main.route('/add/fechaRecordatorio', methods=['POST'])
-def addFechaRecordatorio():
-    try:
-        idActividad = int(request.json['idActividad'])
-        fecha = request.json['fechaRecordatorio']
-        affected_rows = planesModel.añadirFechaRecordatorio(idActividad, fecha)
-
-        if affected_rows > 0:
-            return jsonify(idActividad)
-        else:
-            return jsonify({'message': "Error on anadir recordatorio"}),404
-    except Exception as ex:
-        return jsonify({'message': str(ex)}),500
     
 @main.route('/delete/fechaRecordatorio/<idFechaR>', methods=['DELETE'])
 def deleteFechaRecordatorio(idFechaR):
@@ -110,19 +104,6 @@ def deleteFechaRecordatorio(idFechaR):
     except Exception as ex:
         return jsonify({'message': str(ex)}),500
     
-@main.route('/add/Responsable', methods=['POST'])
-def addResponsable():
-    try:
-        idActividad = int(request.json['idActividad'])
-        correo = request.json['correo']
-        affected_rows = planesModel.añadirResponsable(correo, idActividad)
-
-        if affected_rows > 0:
-            return jsonify(correo)
-        else:
-            return jsonify({'message': "Error on anadir Responsable"}),404
-    except Exception as ex:
-        return jsonify({'message': str(ex)}),500
     
 @main.route('/delete/Responsable', methods=['DELETE'])
 def deleteResponsable():
