@@ -87,4 +87,101 @@ class profesModel():
             return grupos
         except Exception as ex:
             raise Exception(ex)
+    @classmethod
+    def añadirProfeGuia(self, profesorGuia):
+        try:
+            
+            connection = get_connection()
+            with connection.cursor() as cursor:
+                cursor.execute("""call addProfesor(%s, %s, %s, %s, %s, %s);""", (profesorGuia.nombreCompleto, profesorGuia.correo, profesorGuia.telefono, profesorGuia.celular, profesorGuia.foto, profesorGuia.idSede))
+                affected_rows = cursor.rowcount
+                connection.commit()
+                cursor.execute("""call addGuia(%s, %s, %s);""", (profesorGuia.correo, profesorGuia.contraseña, profesorGuia.codigoSede))
+                affected_rows += cursor.rowcount
+                connection.commit()
+            connection.close()
+            return affected_rows
+        except Exception as ex:
+            raise Exception(ex)
+
+
+    @classmethod
+    def updateProfesor(self, profesor):
+        try:
+            connection = get_connection()
+            with connection.cursor() as cursor:
+                cursor.execute("""call updateProfesor(%s, %s,%s, %s, %s);""", (profesor.correo, profesor.nombre, profesor.telefono, profesor.celular, profesor.foto))
+                affected_rows = cursor.rowcount
+                connection.commit()
+            connection.close()
+            return affected_rows
+        except Exception as ex:
+            raise Exception(ex)
+
+    #**
+    @classmethod
+    def definirCoordinador(self, correo, idEquipo):
+        try:
+            connection = get_connection()
+            with connection.cursor() as cursor:
+                cursor.execute("""call definirCoordinador(%s, %s);""", (correo, idEquipo))
+                affected_rows = cursor.rowcount
+                connection.commit()
+            connection.close()
+            return affected_rows
+        except Exception as ex:
+            raise Exception(ex)
+        
+    @classmethod
+    def añadirIntegrante(self, correo, idEquipo):
+        try:
+            connection = get_connection()
+            with connection.cursor() as cursor:
+                cursor.execute("""call addIntegrante(%s, %s);""", (correo, idEquipo))
+                affected_rows = cursor.rowcount
+                connection.commit()
+            connection.close()
+            return affected_rows
+        except Exception as ex:
+            raise Exception(ex)
+        
+    @classmethod
+    def quitarIntegrante(self, correo, idEquipo):
+        try:
+            connection = get_connection()
+            with connection.cursor() as cursor:
+                cursor.execute("""call deleteIntegrante(%s, %s);""", (correo, idEquipo))
+                affected_rows = cursor.rowcount
+                connection.commit()
+            connection.close()
+            return affected_rows
+        except Exception as ex:
+            raise Exception(ex)
+        
+    @classmethod
+    def darDeBajaProfesor(self, correo):
+        try:
+            connection = get_connection()
+            with connection.cursor() as cursor:
+                cursor.execute("""call activarProfesor(%s, %s);""", (correo, 0))
+                affected_rows = cursor.rowcount
+                connection.commit()
+            connection.close()
+            return affected_rows
+        except Exception as ex:
+            raise Exception(ex)
+            
+    @classmethod
+    def quitarGuia(self, correo):
+        try:
+            connection = get_connection()
+            with connection.cursor() as cursor:
+                cursor.execute("""call deleteGuia(%s);""", (correo))
+                affected_rows = cursor.rowcount
+                connection.commit()
+            connection.close()
+            return affected_rows
+        except Exception as ex:
+            raise Exception(ex)  
+    
 

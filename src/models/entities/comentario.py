@@ -1,12 +1,14 @@
-class respuesta():
+class comentario():
 
-    def __init__(self,idComentario,idProfesor,respuesta,fechaEmision,nombreCompleto,foto):
+    def __init__(self,idComentario,idProfesor,comentario,fechaEmision,nombreCompleto,foto,respuestas):
         self.idComentario=idComentario
         self.idProfesor=idProfesor
-        self.respuesta=respuesta
+        self.comentario=comentario
         self.fechaEmision=fechaEmision
         self.nombreCompleto=nombreCompleto
         self.foto=foto
+        self.respuestas =respuestas
+
 
     
         
@@ -15,9 +17,10 @@ class respuesta():
         return{
             'idComentario': self.idComentario,
             'idProfesor': self.idProfesor,
-            'respuesta': self.respuesta,
+            'comentario': self.comentario,
             'fechaEmision': self.fechaEmision,
             'nombreCompleto':self.nombreCompleto,
-            'foto':self.foto
+            'foto':self.foto,
+            'respuestas':self.respuestas 
             
         }
