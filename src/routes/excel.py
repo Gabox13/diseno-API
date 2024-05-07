@@ -31,3 +31,11 @@ def recuperar_ExcelSede(idSede):
         return jsonify(estudiantesExcel)
     except Exception as ex:
         return jsonify({'message': str(ex)}),500
+@main.route('/recuperarTodos')
+def recuperar_todos():
+    try:
+        
+        estudiantesExcel=excelModel.recuperar_todos()
+        return jsonify(estudiantesExcel)
+    except Exception as ex:
+        return jsonify({'message': str(ex)}),500

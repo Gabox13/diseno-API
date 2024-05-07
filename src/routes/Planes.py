@@ -69,20 +69,34 @@ def addActividad():
 def updateActividad():
     try:
         idActividad =int(request.json['idActividad'])
-        nombre = request.json['nombre']
-        semana = int(request.json['semana'])
-        link = request.json['direccion']
-        tipo = request.json['tipo']
-        modalidad = request.json['modalidad']
-        fechaPub = request.json['fechaPublicacion']
-        fechaRea = request.json['fechaRealizacion']
-        afiche = request.json['afiche']
-        estado = request.json['estado']
-        observacion = request.json['observacion']
-        fechaCancel = request.json['fechaCancelacion']
-        participantes = request.json['participantes']
+        nombre = request.json['valoresGenerales']['nombre']
+        semana = int(request.json['valoresGenerales']['semana'])
+        link = request.json['valoresGenerales']['link']
+        tipo = request.json['valoresGenerales']['tipo']
+        modalidad = request.json['valoresGenerales']['modalidad']
+        fechaPub = request.json['valoresGenerales']['fechaPublicacion']
+        fechaRea = request.json['valoresGenerales']['fechaRealizacion']
+        afiche = request.json['valoresGenerales']['afiche']
+        estado = request.json['valoresGenerales']['estado']
+        fechaRec = request.json['valoresGenerales']['FechaRecordatorio']
+        fechaCancelacion = request.json['fechaCancelacion']
+        responsables = request.json['valoresGenerales']['Responsables']
+        fotos = request.json['fotos']
+        observacion = request.json['descripcionCancelacion']
 
-        affected_rows = planesModel.modificarActividad(idActividad, nombre, semana, link, tipo, modalidad, fechaPub, fechaRea, afiche, estado, observacion, fechaCancel, participantes)
+        act = ActividadFactory.crear_actividad(idActividad,nombre,semana,link,tipo,modalidad
+                 ,fechaPub,fechaRea,afiche,estado,fechaRec, descripcion_cancelacion=observacion, fecha_cancelacion=fechaCancelacion)
+        affected_rows = planesModel.modificarActividad(act)
+
+        for respon in responsables:
+            affected_rows += planesModel.añadirResponsable(respon['correo'], idActividad)
+        for fecR in fechaRec:
+            affected_rows += planesModel.añadirFechaRecordatorio(idActividad, fecR['fechaR'])
+        
+        for responq in responsablesQ:
+            affected_rows += planesModel.quitarResponsable(responq['correo'], idActividad)
+        for fecRq in fechaRec:
+            affected_rows += planesModel.borrarFechaRecordatorio(fecRq['idFechaR'])
 
         if affected_rows > 0:
             return jsonify(idActividad)
