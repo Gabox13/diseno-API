@@ -148,3 +148,22 @@ def darDeBajaProfesor(correo):
             return jsonify({'message': "Error on dar de bajar Profesor"}),500
     except Exception as ex:
         return jsonify({'message': str(ex)}),500
+@main.route('/add/profesor', methods=['POST'])
+def addProfe():
+    try:
+
+        correo= request.json['correo']
+        nombre = request.json['nombreCompleto']
+        telefono = request.json['telefono']
+        celular = request.json['celular']
+        idSede = int(request.json['idSede'])
+        foto = request.json['foto']
+
+        affected_rows = profesModel.añadirProfe(correo, nombre, telefono, celular, idSede, foto)
+
+        if affected_rows > 1:
+            return jsonify(correo)
+        else:
+            return jsonify({'message': "Error on añadir Profesor"}),500
+    except Exception as ex:
+        return jsonify({'message': str(ex)}),500

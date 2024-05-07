@@ -189,5 +189,19 @@ class profesModel():
             return affected_rows
         except Exception as ex:
             raise Exception(ex)  
+    @classmethod
+    def añadirProfe(self,correo, nombre, telefono, celular, idSede, foto):
+        try:
+
+            connection = get_connection()
+            with connection.cursor() as cursor:
+                cursor.execute("""call addProfesor(%s, %s, %s, %s, %s, %s);""", (nombre, correo, telefono, celular, foto, idSede))
+                affected_rows = cursor.rowcount
+                
+            connection.commit()   
+            connection.close()
+            return affected_rows
+        except Exception as ex:
+            raise Exception(ex)
     
 

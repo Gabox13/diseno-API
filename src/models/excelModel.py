@@ -86,3 +86,23 @@ class excelModel():
             return estudiantes
         except Exception as ex:
             raise Exception(ex)
+    @classmethod
+    def recuperar_GrupoSede(self,idSede):
+        try:
+            connection = get_connection()
+            estudiantes = []
+
+            with connection.cursor() as cursor:
+
+                cursor.execute('call obtenerEstudiantesxSede(%s)', (idSede,))
+                resultset = cursor.fetchall()
+                
+                for row in resultset:
+                    estu = estudiante(row[0], row[1], row[3],
+                                  row[4], row[5], row[6], row[7],row[2])
+                    estudiantes.append(estu.to_JSON())
+
+            connection.close()
+            return estudiantes
+        except Exception as ex:
+            raise Exception(ex)

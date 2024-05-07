@@ -23,6 +23,15 @@ def get_ActividadesXPlan(id):
     except Exception as ex:
         return jsonify({'message': str(ex)}),500
 
+@main.route('/actividadProxima')
+def get_ActividadProxima():
+    try:
+       
+        planes = planesModel.get_ActividadProxima()
+        return json.dumps(planes)
+    except Exception as ex:
+        return jsonify({'message': str(ex)}),500
+
 @main.route('/add/actividad', methods=['POST'])
 def addActividad():
     try:
