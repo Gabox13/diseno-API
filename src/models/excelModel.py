@@ -74,8 +74,9 @@ class excelModel():
 
             with connection.cursor() as cursor:
 
-                cursor.execute('SELECT * FROM excelList WHERE id = LAST_INSERT_ID();')
+                cursor.execute('SELECT * FROM excelList ORDER BY id DESC LIMIT 1')
                 nombreExcel=cursor.fetchone()
+                print(nombreExcel)
                 cursor.execute('call obtenerExcelxEstudiantes(%s)', (nombreExcel[0],))
                 resultset = cursor.fetchall()
                 print(resultset)
@@ -85,7 +86,7 @@ class excelModel():
                     estudiantes.append(estu.to_JSON())
 
             connection.close()
-            return estudiantes
+            return {'nombre':nombreExcel[0],'excel':estudiantes}
         except Exception as ex:
             raise Exception(ex)
     @classmethod

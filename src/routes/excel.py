@@ -14,10 +14,10 @@ def add_Excel():
     except Exception as ex:
         return jsonify({'message': str(ex)}),500
 
-@main.route('/recuperar/')
+@main.route('/recuperar')
 def recuperar_Excel():
     try:
-        
+        print("aqui")
         estudiantesExcel=excelModel.recuperar_Excel()
         return jsonify(estudiantesExcel)
     except Exception as ex:
