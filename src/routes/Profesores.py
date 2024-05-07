@@ -69,24 +69,35 @@ def addProfeGuia():
     except Exception as ex:
         return jsonify({'message': str(ex)}),500
 
-@main.route('/activarGuia', methods=['POST'])
-def activarGuia():
+@main.route('/definirGuia', methods=['POST'])
+def definirGuia():
     try:
         
         correo= request.json['correo']
         contraseña = request.json['contraseña']
         codigoSede = request.json['codigoSede']
-        affected_rows = profesModel.activarGuia(correo, contraseña, codigoSede)
+        affected_rows = profesModel.definirGuia(correo, contraseña, codigoSede)
 
-        if affected_rows > 1:
+        if affected_rows > 0:
             return jsonify(correo)
         else:
             return jsonify({'message': "Error on Update Profesor"}),500
     except Exception as ex:
         return jsonify({'message': str(ex)}),500
 
+@main.route('/activarGuia', methods=['POST'])
+def activarGuia():
+    try:
+        
+        correo= request.json['correo']
+        affected_rows = profesModel.activarGuia(correo)
 
-
+        if affected_rows > 0:
+            return jsonify(correo)
+        else:
+            return jsonify({'message': "Error on Update Profesor"}),500
+    except Exception as ex:
+        return jsonify({'message': str(ex)}),500
 
 @main.route('/update/', methods=['PUT'])
 def update_profe():

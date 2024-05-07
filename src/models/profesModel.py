@@ -111,7 +111,7 @@ class profesModel():
             raise Exception(ex)
 
     @classmethod
-    def activarGuia(self, correo, contraseña, codigoSede):
+    def definirGuia(self, correo, contraseña, codigoSede):
         try:
             connection = get_connection()
             with connection.cursor() as cursor:
@@ -122,7 +122,19 @@ class profesModel():
             return affected_rows
         except Exception as ex:
             raise Exception(ex)
-
+        
+    @classmethod
+    def activarGuia(self, correo):
+        try:
+            connection = get_connection()
+            with connection.cursor() as cursor:
+                cursor.execute("""call activoGuia(%s);""", (correo))
+                affected_rows = cursor.rowcount
+                connection.commit()
+            connection.close()
+            return affected_rows
+        except Exception as ex:
+            raise Exception(ex)
 
     @classmethod
     def updateProfesor(self, profesor):
