@@ -100,9 +100,8 @@ class planesModel():
         try:
             connection = get_connection()
             with connection.cursor() as cursor:
-                cursor.execute("""call addActividad(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s);""", (nombre, semana, link, tipo, modalidad, 
-                                                                fechaPub, fechaRea, afiche, estado, 
-                                                                None, None, None, idPlan))
+                cursor.execute("""call addActividad(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s);""", (nombre, semana, link, tipo, modalidad, 
+                                                                fechaPub, fechaRea, afiche, estado, idPlan))
                 affected_rows = cursor.rowcount
                 connection.commit()
             connection.close()

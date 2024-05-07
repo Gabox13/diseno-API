@@ -113,6 +113,7 @@ def quitarIntegrante():
         equipo = int(request.json['idEquipo'])
 
         affected_rows = profesModel.quitarIntegrante(correo, equipo)
+        affected_rows += profesModel.quitarGuia(correo)
 
         if affected_rows ==1:
             return jsonify(correo)
@@ -125,23 +126,10 @@ def quitarIntegrante():
 def darDeBajaProfesor(correo):
     try:
         affected_rows = profesModel.darDeBajaProfesor(correo)
-
+        
         if affected_rows ==1:
             return jsonify(correo)
         else:
             return jsonify({'message': "Error on dar de bajar Profesor"}),500
-    except Exception as ex:
-        return jsonify({'message': str(ex)}),500
-
-@main.route('/deleteGuia/<correo>', methods=['PUT'])
-def quitarGuia(correo):
-    try:
-
-        affected_rows = profesModel.quitarGuia(correo)
-
-        if affected_rows ==1:
-            return jsonify(correo)
-        else:
-            return jsonify({'message': "Error on quitarGuia"}),500
     except Exception as ex:
         return jsonify({'message': str(ex)}),500

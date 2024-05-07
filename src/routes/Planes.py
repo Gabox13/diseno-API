@@ -26,6 +26,7 @@ def get_ActividadesXPlan(id):
 @main.route('/add/actividad', methods=['POST'])
 def addActividad():
     try:
+
         nombre = request.json['nombre']
         semana = int(request.json['semana'])
         link = request.json['link']
@@ -40,10 +41,7 @@ def addActividad():
         participantes = request.json['participantes']
         idPlan = int(request.json['idPlan'])
 
-       
-
         affected_rows = planesModel.añadirActividad(nombre, semana, link, tipo, modalidad, fechaPub, fechaRea, afiche, estado, idPlan)
-
         if affected_rows > 0:
             return jsonify(nombre)
         else:
@@ -51,9 +49,10 @@ def addActividad():
     except Exception as ex:
         return jsonify({'message': str(ex)}),500
     
-@main.route('/update/actividad/<idActividad>', methods=['PUT'])
-def updateActividad(idActividad):
+@main.route('/update/actividad', methods=['PUT'])
+def updateActividad():
     try:
+        idActividad =int(request.json['idActividad'])
         nombre = request.json['nombre']
         semana = int(request.json['semana'])
         link = request.json['link']
@@ -66,8 +65,6 @@ def updateActividad(idActividad):
         observacion = request.json['observacion']
         fechaCancel = request.json['fechaCancelacion']
         participantes = request.json['participantes']
-
-       
 
         affected_rows = planesModel.modificarActividad(idActividad, nombre, semana, link, tipo, modalidad, fechaPub, fechaRea, afiche, estado, observacion, fechaCancel, participantes)
 

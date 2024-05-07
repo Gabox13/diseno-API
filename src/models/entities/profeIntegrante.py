@@ -17,7 +17,7 @@ class profeIntegrante():
     def to_JSON(self):
         return {
             "correo":self.correo,
-            "nombreCompleto":self.nombreCompleto,
+            "nombre":self.nombreCompleto,
             "activo":self.activo,
             "telefono":self.telefono,
             "celular":self.celular,
