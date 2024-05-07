@@ -29,6 +29,21 @@ def get_detalleEquipo():
         return jsonify(integrantes)
     except Exception as ex:
         return jsonify({'message': str(ex)}),500
+
+@main.route('/detalleF/<sede>')
+def get_detalleF(sede):
+    try:
+        
+        integrantes = profesModel.get_detalleEquipo()
+        profe = profesModel.get_Profes(sede)
+        
+
+        return jsonify({'profesGuia':integrantes,'profes':profe})
+    except Exception as ex:
+        return jsonify({'message': str(ex)}),500
+
+
+
 @main.route('/add/profesorGuia', methods=['POST'])
 def addProfeGuia():
     try:
