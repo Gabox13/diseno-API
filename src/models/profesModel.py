@@ -18,8 +18,14 @@ class profesModel():
                 resultset = cursor.fetchall()
 
                 for row in resultset:
+                    if row[7] == None:
+                        valorGuia= None
+                        valorCoordinador= None
+                    else:
+                        valorGuia=1
+                        valorCoordinador=row[9]
                     Profe = profe(row[0], row[1], row[2],
-                                  row[3], row[4], row[5], row[6])
+                                  row[3], row[4], row[5], row[6],valorGuia,valorCoordinador)
                     profes.append(Profe.to_JSON())
             connection.close()
             return profes

@@ -64,7 +64,7 @@ def update_profe():
         telefono = request.json['telefono']
         celular = request.json['celular']
         foto = request.json['foto']
-        profesor = profe(correo, nombre, 1,telefono, celular, foto,1)
+        profesor = profe(correo, nombre, 1,telefono, celular, foto,1,1,1)
 
         affected_rows = profesModel.updateProfesor(profesor)
 
