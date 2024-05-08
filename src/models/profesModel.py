@@ -241,7 +241,6 @@ class profesModel():
         except Exception as ex:
             raise Exception(ex)
     
-
     @classmethod
     def updateEstudiante(self, carne, nombre, segundoNombre, apellido, apellido2, correo, celular):
         try:
