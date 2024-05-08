@@ -186,12 +186,20 @@ class planesModel():
     def modificarActividad(self, act):
         try:
             connection = get_connection()
+            affected_rows = 0
             with connection.cursor() as cursor:
-                cursor.execute("""call updateActividad(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s);""", (act['valoresGenerales']['idActividad'], act['valoresGenerales']['nombre'], act['valoresGenerales']['semana'], act['valoresGenerales']['link'], act['valoresGenerales']['tipo'], act['valoresGenerales']['modalidad'], 
+                if act['valoresGenerales']['estado'] in ["Notificada", "Planeada", "Realizada"]:
+                    cursor.execute("""call updateActividad(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s);""", (act['valoresGenerales']['idActividad'], act['valoresGenerales']['nombre'], act['valoresGenerales']['semana'], act['valoresGenerales']['direccion'], act['valoresGenerales']['tipo'], act['valoresGenerales']['modalidad'], 
                                                                 act['valoresGenerales']['fechaPublicacion'], act['valoresGenerales']['fechaRealizacion'], act['valoresGenerales']['afiche'], act['valoresGenerales']['estado'], 
-                                                                act['descripcion_cancelacion'], act['fechaCancelacion'], ""))
-                affected_rows = cursor.rowcount
-                connection.commit()
+                                                                None, None, None))
+                    affected_rows = cursor.rowcount 
+                    connection.commit()
+                if act['valoresGenerales']['estado'] == "Cancelada":
+                    cursor.execute("""call updateActividad(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s);""", (act['valoresGenerales']['idActividad'], act['valoresGenerales']['nombre'], act['valoresGenerales']['semana'], act['valoresGenerales']['direccion'], act['valoresGenerales']['tipo'], act['valoresGenerales']['modalidad'], 
+                                                                act['valoresGenerales']['fechaPublicacion'], act['valoresGenerales']['fechaRealizacion'], act['valoresGenerales']['afiche'], act['valoresGenerales']['estado'], 
+                                                                act['descripcionCancelacion'], act['fechaCancelacion'], None))
+                    affected_rows = cursor.rowcount 
+                    connection.commit()
             connection.close()
             return affected_rows
         except Exception as ex:

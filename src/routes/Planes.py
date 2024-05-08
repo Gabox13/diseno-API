@@ -106,9 +106,10 @@ def updateActividad():
         for fecR in fechasRecAgregar:
             affected_rows += planesModel.añadirFechaRecordatorio(idActividad, fecR['fechaR'])
         
-        planesModel.quitarFotos(idActividad)
-        for foto in fotos:
-            affected_rows += planesModel.añadirFotos(idActividad, foto['ruta'])
+        if estado == "Realizada":
+            planesModel.quitarFotos(idActividad)
+            for foto in fotos:
+                affected_rows += planesModel.añadirFotos(idActividad, foto['ruta'])
 
         if affected_rows > 0:
             return jsonify(idActividad)
