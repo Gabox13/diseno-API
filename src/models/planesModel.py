@@ -249,7 +249,7 @@ class planesModel():
         try:
             connection = get_connection()
             with connection.cursor() as cursor:
-                cursor.execute("""call addPlan(%s, %s, %s);""", (idEquipo, año, semestre))
+                cursor.execute("""call addPlan(%s, %s, %s);""", (idEquipo, semestre, año))
                 affected_rows = cursor.rowcount
                 connection.commit()
             connection.close()
