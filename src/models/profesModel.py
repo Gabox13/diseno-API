@@ -242,3 +242,15 @@ class profesModel():
             raise Exception(ex)
     
 
+    @classmethod
+    def updateEstudiante(self, carne, nombre, segundoNombre, apellido, apellido2, correo, celular):
+        try:
+            connection = get_connection()
+            with connection.cursor() as cursor:
+                cursor.execute("""call updateEstudiante(%s, %s,%s, %s, %s, %s, %s);""", (carne, nombre, segundoNombre, apellido, apellido2, correo, celular))
+                affected_rows = cursor.rowcount
+                connection.commit()
+            connection.close()
+            return affected_rows
+        except Exception as ex:
+            raise Exception(ex)

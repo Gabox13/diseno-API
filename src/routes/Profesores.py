@@ -196,3 +196,23 @@ def addProfe():
             return jsonify({'message': "Error on añadir Profesor"}),404
     except Exception as ex:
         return jsonify({'message': str(ex)}),500
+
+@main.route('/update/Estudiante', methods=['PUT'])
+def update_Estudiante():
+    try:
+        carne = request.json['Carnet']
+        nombre = request.json['Nombre']
+        segundoNombre = request.json['Segundo Nombre']
+        apellido = request.json['Apellido']
+        apellido2 = request.json['Segundo Apellido']
+        correo = request.json['Correo']
+        celular = request.json['Cel']
+        affected_rows = profesModel.updateEstudiante(carne, nombre, segundoNombre, apellido, apellido2,
+                                                   correo, celular)
+
+        if affected_rows > 0:
+            return jsonify(carne)
+        else:
+            return jsonify({'message': "Error on Update Estudiante"}),404
+    except Exception as ex:
+        return jsonify({'message': str(ex)}),500
