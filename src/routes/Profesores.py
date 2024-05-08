@@ -36,8 +36,6 @@ def get_detalleF(sede):
         
         integrantes = profesModel.get_detalleEquipo()
         profe = profesModel.get_Profes(sede)
-        
-
         return jsonify({'profesGuia':integrantes,'profes':profe})
     except Exception as ex:
         return jsonify({'message': str(ex)}),500
@@ -65,7 +63,7 @@ def addProfeGuia():
         if affected_rows > 1:
             return jsonify(profesorG.correo)
         else:
-            return jsonify({'message': "Error on Update Profesor"}),500
+            return jsonify({'message': "Error on Update Profesor"}),404
     except Exception as ex:
         return jsonify({'message': str(ex)}),500
 
@@ -82,7 +80,7 @@ def definirGuia():
         if affected_rows > 0:
             return jsonify(correo)
         else:
-            return jsonify({'message': "Error on Update Profesor"}),500
+            return jsonify({'message': "Error on Update Profesor"}),404
     except Exception as ex:
         return jsonify({'message': str(ex)}),500
 
@@ -96,7 +94,7 @@ def activarGuia():
         if affected_rows > 0:
             return jsonify(correo)
         else:
-            return jsonify({'message': "Error on Update Profesor"}),500
+            return jsonify({'message': "Error on Update Profesor"}),404
     except Exception as ex:
         return jsonify({'message': str(ex)}),500
 
@@ -115,7 +113,7 @@ def update_profe():
         if affected_rows ==1:
             return jsonify(profesor.correo)
         else:
-            return jsonify({'message': "Error on Update Profesor"}),500
+            return jsonify({'message': "Error on Update Profesor"}),404
     except Exception as ex:
         return jsonify({'message': str(ex)}),500
 
@@ -131,7 +129,7 @@ def definirCoordinador():
         if affected_rows ==1:
             return jsonify(correo)
         else:
-            return jsonify({'message': "Error on definirCoordinador"}),500
+            return jsonify({'message': "Error on definirCoordinador"}),404
     except Exception as ex:
         return jsonify({'message': str(ex)}),500
     
@@ -148,7 +146,7 @@ def añadirIntegrante():
         if affected_rows ==1:
             return jsonify(correo)
         else:
-            return jsonify({'message': "Error on añadir integrante"}),500
+            return jsonify({'message': "Error on añadir integrante"}),404
     except Exception as ex:
         return jsonify({'message': str(ex)}),500
     
@@ -164,7 +162,7 @@ def quitarIntegrante():
         if affected_rows ==1:
             return jsonify(correo)
         else:
-            return jsonify({'message': "No hay integrante eliminado"}),500
+            return jsonify({'message': "No hay integrante eliminado"}),404
     except Exception as ex:
         return jsonify({'message': str(ex)}),500
     
@@ -176,7 +174,7 @@ def darDeBajaProfesor(correo):
         if affected_rows ==1:
             return jsonify(correo)
         else:
-            return jsonify({'message': "Error on dar de bajar Profesor"}),500
+            return jsonify({'message': "Error on dar de bajar Profesor"}),404
     except Exception as ex:
         return jsonify({'message': str(ex)}),500
 @main.route('/add/profesor', methods=['POST'])
@@ -195,6 +193,6 @@ def addProfe():
         if affected_rows >= 1:
             return jsonify(correo)
         else:
-            return jsonify({'message': "Error on añadir Profesor"}),500
+            return jsonify({'message': "Error on añadir Profesor"}),404
     except Exception as ex:
         return jsonify({'message': str(ex)}),500

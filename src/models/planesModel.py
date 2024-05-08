@@ -245,6 +245,19 @@ class planesModel():
             raise Exception(ex)
     
     @classmethod
+    def añadirPlan(self, idEquipo, año, semestre):
+        try:
+            connection = get_connection()
+            with connection.cursor() as cursor:
+                cursor.execute("""call addPlan(%s, %s, %s);""", (idEquipo, año, semestre))
+                affected_rows = cursor.rowcount
+                connection.commit()
+            connection.close()
+            return affected_rows
+        except Exception as ex:
+            raise Exception(ex)
+
+    @classmethod
     def quitarResponsable(self, correo, idActividad):
         try:
             connection = get_connection()
@@ -269,6 +282,8 @@ class planesModel():
             return affected_rows
         except Exception as ex:
             raise Exception(ex)
+    
+    
         
     @classmethod
     def responder(self, correo,idComentario,replay):

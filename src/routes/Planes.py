@@ -32,6 +32,21 @@ def get_ActividadProxima():
         return json.dumps(planes)
     except Exception as ex:
         return jsonify({'message': str(ex)}),500
+    
+@main.route('/add/Plan', methods=['POST'])
+def añadirPlan():
+    try:
+        año = int(request.json['anno'])
+        semestre = int(request.json['semestre'])
+        affected_rows = planesModel.añadirPlan(1, año, semestre)
+
+        if affected_rows >0:
+            return jsonify(1)
+        else:
+            return jsonify({'message': "Error on agregar Plan"}),404
+    except Exception as ex:
+        return jsonify({'message': str(ex)}),500
+
 
 @main.route('/add/actividad', methods=['POST'])
 def addActividad():
@@ -64,7 +79,7 @@ def addActividad():
         if affected_rows > 0:
             return jsonify(nombre)
         else:
-            return jsonify({'message': "Error on anadir actividad"}),500
+            return jsonify({'message': "Error on anadir actividad"}),404
     except Exception as ex:
         return jsonify({'message': str(ex)}),500
     
