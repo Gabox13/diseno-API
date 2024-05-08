@@ -38,6 +38,8 @@ def addActividad():
     try:
 
         nombre = request.json['valoresGenerales']['nombre']
+        print(nombre)
+        print("aqui")
         semana = int(request.json['valoresGenerales']['semana'])
         link = request.json['valoresGenerales']['direccion']
         tipo = request.json['valoresGenerales']['tipo']
@@ -47,13 +49,14 @@ def addActividad():
         afiche = request.json['valoresGenerales']['afiche']
         estado = request.json['valoresGenerales']['estado']
         idPlan = int(request.json['idPlan'])
-        fechaRec = request.json['valoresGenerales']['FechaRecordatorio']
-        responsables = request.json['valoresGenerales']['Responsables']
+        fechaRec = request.json['valoresGenerales']['fechaRecordatorio']
+        responsables = request.json['valoresGenerales']['responsables']
         
         act = ActividadFactory.crear_actividad(1000,nombre,semana,link,tipo,modalidad
                  ,fechaPub,fechaRea,afiche,estado,fechaRec)
+        print(act)
         affected_rows, idActividad = planesModel.añadirActividad(act, idPlan)
-
+        
         for respon in responsables:
             affected_rows += planesModel.añadirResponsable(respon['correo'], idActividad)
         for fecR in fechaRec:
@@ -78,7 +81,7 @@ def updateActividad():
         fechaRea = request.json['valoresGenerales']['fechaRealizacion']
         afiche = request.json['valoresGenerales']['afiche']
         estado = request.json['valoresGenerales']['estado']
-        fechaRec = request.json['valoresGenerales']['FechaRecordatorio']
+        fechaRec = request.json['valoresGenerales']['fechaRecordatorio']
         fechaCancelacion = request.json['fechaCancelacion']
         fotos = request.json['fotos']
         observacion = request.json['descripcionCancelacion']
