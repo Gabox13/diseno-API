@@ -39,14 +39,14 @@ def addActividad():
 
         nombre = request.json['valoresGenerales']['nombre']
         semana = int(request.json['valoresGenerales']['semana'])
-        link = request.json['valoresGenerales']['link']
+        link = request.json['valoresGenerales']['direccion']
         tipo = request.json['valoresGenerales']['tipo']
         modalidad = request.json['valoresGenerales']['modalidad']
         fechaPub = request.json['valoresGenerales']['fechaPublicacion']
         fechaRea = request.json['valoresGenerales']['fechaRealizacion']
         afiche = request.json['valoresGenerales']['afiche']
         estado = request.json['valoresGenerales']['estado']
-        idPlan = int(request.json['valoresGenerales']['idPlan'])
+        idPlan = int(request.json['idPlan'])
         fechaRec = request.json['valoresGenerales']['FechaRecordatorio']
         responsables = request.json['valoresGenerales']['Responsables']
         
@@ -71,7 +71,7 @@ def updateActividad():
         idActividad =int(request.json['valoresGenerales']['idActividad'])
         nombre = request.json['valoresGenerales']['nombre']
         semana = int(request.json['valoresGenerales']['semana'])
-        link = request.json['valoresGenerales']['link']
+        link = request.json['valoresGenerales']['direccion']
         tipo = request.json['valoresGenerales']['tipo']
         modalidad = request.json['valoresGenerales']['modalidad']
         fechaPub = request.json['valoresGenerales']['fechaPublicacion']
