@@ -76,6 +76,7 @@ def definirGuia():
         correo= request.json['correo']
         contraseña = request.json['contraseña']
         codigoSede = request.json['codigoSede']
+        
         affected_rows = profesModel.definirGuia(correo, contraseña, codigoSede)
 
         if affected_rows > 0:
@@ -137,9 +138,11 @@ def definirCoordinador():
 @main.route('/addIntegrante', methods=['POST'])
 def añadirIntegrante():
     try:
-        correo = request.json['correo']
-        equipo = int(request.json['idEquipo'])
-
+        correo= request.json['correo']
+        contraseña = request.json['contraseña']
+        codigoSede = request.json['codigoSede']
+        equipo  = request.json['idEquipo']
+        affected_rows = profesModel.definirGuia(correo, contraseña, codigoSede)
         affected_rows = profesModel.añadirIntegrante(correo, equipo)
 
         if affected_rows ==1:

@@ -115,9 +115,18 @@ class profesModel():
         try:
             connection = get_connection()
             with connection.cursor() as cursor:
-                cursor.execute("""call addGuia(%s, %s, %s);""", (correo, contraseña, codigoSede))
+                cursor.execute("""call obtenerProfesor(%s);""", (correo))
+                result = cursor.fetchone()
+                if result[7] ==None:
+                    cursor.execute("""call addGuia(%s, %s, %s);""", (correo, contraseña, codigoSede))
+                    connection.commit()
+                else:
+                    cursor.execute("""call activoGuia(%s);""", (correo))
+                    connection.commit()
+
                 affected_rows = cursor.rowcount
-                connection.commit()
+                
+               
             connection.close()
             return affected_rows
         except Exception as ex:
