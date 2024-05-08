@@ -187,9 +187,9 @@ class planesModel():
         try:
             connection = get_connection()
             with connection.cursor() as cursor:
-                cursor.execute("""call updateActividad(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s);""", (act.idActividad, act.nombre, act.semana, act.link, act.tipo, act.modalidad, 
-                                                                act.fechaPublicacion, act.fechaRealizacion, act.afiche, act.estado, 
-                                                                act.descripcion_cancelacion, act.fechaCancelacion, ""))
+                cursor.execute("""call updateActividad(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s);""", (act['valoresGenerales']['idActividad'], act['valoresGenerales']['nombre'], act['valoresGenerales']['semana'], act['valoresGenerales']['link'], act['valoresGenerales']['tipo'], act['valoresGenerales']['modalidad'], 
+                                                                act['valoresGenerales']['fechaPublicacion'], act['valoresGenerales']['fechaRealizacion'], act['valoresGenerales']['afiche'], act['valoresGenerales']['estado'], 
+                                                                act['descripcion_cancelacion'], act['fechaCancelacion'], ""))
                 affected_rows = cursor.rowcount
                 connection.commit()
             connection.close()
