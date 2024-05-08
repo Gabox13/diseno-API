@@ -229,7 +229,7 @@ class profesModel():
     @classmethod
     def añadirProfe(self,correo, nombre, telefono, celular, idSede, foto):
         try:
-
+            
             connection = get_connection()
             with connection.cursor() as cursor:
                 cursor.execute("""call addProfesor(%s, %s, %s, %s, %s, %s);""", (nombre, correo, telefono, celular, foto, idSede))

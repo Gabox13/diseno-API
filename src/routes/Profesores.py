@@ -184,7 +184,7 @@ def addProfe():
     try:
 
         correo= request.json['correo']
-        nombre = request.json['nombreCompleto']
+        nombre = request.json['nombre']
         telefono = request.json['telefono']
         celular = request.json['celular']
         idSede = int(request.json['idSede'])
@@ -192,7 +192,7 @@ def addProfe():
 
         affected_rows = profesModel.añadirProfe(correo, nombre, telefono, celular, idSede, foto)
 
-        if affected_rows > 1:
+        if affected_rows >= 1:
             return jsonify(correo)
         else:
             return jsonify({'message': "Error on añadir Profesor"}),500
