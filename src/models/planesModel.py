@@ -349,4 +349,33 @@ class planesModel():
             return affected_rows
         except Exception as ex:
             raise Exception(ex)
-    
+        
+
+    @classmethod
+    def get_actividadXcomentarios(self, idActividad):  
+        try:
+            connection = get_connection()
+            with connection.cursor() as cursor:
+                cursor.execute('call obtenerComentarios(%s)', (idActividad,))
+                resultset1 = cursor.fetchall()
+                comentarios = []
+                for row1 in resultset1:
+                        
+                    cursor.execute('call obtenerRespuestas(%s)', (row1[0],))
+                    resultset2 = cursor.fetchall()
+                    respuestas = []
+                    for row2 in resultset2:
+                            
+                        Respuesta = respuesta(
+                                row2[0], row2[1], row2[2], str(row2[3]), row2[4], row2[5])
+                        respuestas.append(Respuesta.to_JSON())
+
+                    com = comentario(
+                            row1[0], row1[1], row1[2], str(row1[3]), row1[4], row1[5], respuestas)
+                    comentarios.append(com.to_JSON())
+
+            connection.close()
+            return comentarios
+        except Exception as ex:
+            raise Exception(ex)
+        

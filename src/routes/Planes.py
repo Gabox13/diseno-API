@@ -222,3 +222,14 @@ def deleteComentario():
             return jsonify({'message': "Error on borrar Comentario"}),404
     except Exception as ex:
         return jsonify({'message': str(ex)}),500
+
+@main.route('/comentarioXactividades/<id>')
+def get_comentarioXactividades(id):
+    try:
+        
+        affected_rows = planesModel.get_actividadXcomentarios(id)
+
+        
+        return jsonify(affected_rows)
+    except Exception as ex:
+        return jsonify({'message': str(ex)}),500
