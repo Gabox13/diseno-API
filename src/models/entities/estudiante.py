@@ -1,4 +1,5 @@
-class estudiante():
+from .userComponent import UserComponent
+class estudiante(UserComponent):
 
     def __init__(self,carne,nombre,apellido,apellido2,correo,celular,idSede,segundoNombre=None):
         self.carne=carne

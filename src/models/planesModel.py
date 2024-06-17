@@ -1,9 +1,14 @@
 from src.database.db import get_connection
 from .entities.plan import plan
 from .entities.ActividadFactory import ActividadFactory
+from .entities.actividad import actividad
 from .entities.comentario import comentario
 from .entities.respuesta import respuesta
 from .entities.Recordatorio import Recordatorio
+from .entities.centroNotificaciones import NotificationCenter
+from .entities.ActivityVisitor import ActivityVisitor
+
+
 
 
 class planesModel():
@@ -26,7 +31,69 @@ class planesModel():
             return planes
         except Exception as ex:
             raise Exception(ex)
+    @classmethod
+    def set_systemData(self,sys_date,id):
+        try:
+            cenNon = NotificationCenter()
+            actVisitor = ActivityVisitor(sys_date)
+            connection = get_connection()
+            actividades = []
 
+            with connection.cursor() as cursor:
+
+                cursor.execute('SELECT username FROM estudianteUsuario')
+                resultset = cursor.fetchall()
+                for row in resultset:
+                   print(row[0])
+                   cenNon.subscribe(row[0])
+                actVisitor.attach(cenNon)
+                cursor.execute('call obtenerActividadesxPlan(%s)', (id,))
+                resultset1 = cursor.fetchall()
+
+                for row in resultset1:
+                    cursor.execute('call obtenerFechasRecordatorioActividad(%s)', (row[0]))
+                    resultset2 = cursor.fetchall()
+                    recordatorios=[]
+                    for row1 in resultset2:
+                        recor =Recordatorio(row1[0],row1[1],row1[2])
+                        recordatorios.append(recor)
+                    act = actividad(row[0],row[1],row[2],row[3],row[4],row[5],row[6],row[7],row[8],row[9],recordatorios,None,None)
+                    actividades.append(act)
+            connection.close()
+            print(actividades)
+            for act in actividades:
+                act.accept(actVisitor)
+            return {"Message":"Se logro actualizar y notificar"}
+        except Exception as ex:
+            raise Exception(ex)
+    @classmethod
+    def cambiarEstadoMensaje(self,idM,username):
+        try:
+            connection = get_connection()
+            with connection.cursor() as cursor:
+
+                cursor.execute("""UPDATE messageXEstudianteUsuario
+                               SET abierto = 1
+                               WHERE userEU = %s AND idMe = %s """,(username,idM))
+                connection.commit()
+            connection.close()
+            return 1
+        except Exception as ex:
+            raise Exception(ex)
+    @classmethod
+    def borrarNotificacion(self,idM,username):
+        try:
+            connection = get_connection()
+            with connection.cursor() as cursor:
+
+                cursor.execute("""UPDATE messageXEstudianteUsuario
+                               SET valActive = 0
+                               WHERE userEU = %s AND idMe = %s """,(username,idM))
+                connection.commit()
+            connection.close()
+            return 1
+        except Exception as ex:
+            raise Exception(ex)
     @classmethod
     def get_ActividadesXPlan(self, id):
         try:

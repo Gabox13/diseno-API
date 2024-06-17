@@ -1,5 +1,6 @@
 from flask import Blueprint, jsonify,request
 import simplejson as json
+from datetime import datetime, timedelta
 from src.models.entities.actividad import actividad
 from src.models.entities.ActividadFactory import ActividadFactory
 from src.models.planesModel import planesModel
@@ -232,4 +233,40 @@ def get_comentarioXactividades(id):
         
         return jsonify(affected_rows)
     except Exception as ex:
+        return jsonify({'message': str(ex)}),500 
+    
+@main.route('/setSystemDate', methods=['PUT'])
+def set_SystemDate():
+    try:
+        fecha = request.json['Fecha']
+        fecha = datetime.strptime(fecha, '%Y-%m-%d').date()
+        print(fecha)
+        affected_rows = planesModel.set_systemData(fecha,1)
+        
+        
+        return affected_rows,200
+    except Exception as ex:
         return jsonify({'message': str(ex)}),500
+
+@main.route('/cambiarNotificacion', methods=['PUT'])
+def cambiarNotificacion():
+    try:
+        idM = request.json['idMensaje']
+        idU = request.json['username']
+        affected_rows = planesModel.cambiarEstadoMensaje(idM,idU)
+        
+        
+        return  {"message":"todo salio correcto"},200
+    except Exception as ex:
+        return jsonify({'message': str(ex)}),500 
+@main.route('/borrarNotificacion', methods=['PUT'])
+def borrarNotificacion():
+    try:
+        idM = request.json['idMensaje']
+        idU = request.json['username']
+        affected_rows = planesModel.borrarNotificacion(idM,idU)
+        
+        
+        return  {"message":"todo salio correcto"},200
+    except Exception as ex:
+        return jsonify({'message': str(ex)}),500  

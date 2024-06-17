@@ -14,6 +14,9 @@ class actividad:
         self.comentarios=comentarios
         self.fechaRecordatorio=fechaRecordatorio
         self.responsables=responsables
+    def accept(self,visitor):
+        visitor.visit(self)
+
     def to_JSON(self):
         return{
             'idActividad':self.idActividad,

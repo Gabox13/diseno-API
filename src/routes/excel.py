@@ -39,3 +39,21 @@ def recuperar_todos():
         return jsonify(estudiantesExcel)
     except Exception as ex:
         return jsonify({'message': str(ex)}),500
+@main.route('/InicioEstudiante/<correo>')
+def iniciar_sesion_estudiante(correo):
+    try:
+        
+        estudianteCargado=excelModel.inicio_sesion_es(correo)
+        return jsonify(estudianteCargado)
+    except Exception as ex:
+        return jsonify({'message': str(ex)}),500 
+@main.route('/recuperarNotificaciones/<usuario>')
+def recuperar_Notificaciones(usuario):
+    try:
+        
+        notificaciones=excelModel.recuperar_notificaciones(usuario)
+        return jsonify(notificaciones)
+    except Exception as ex:
+        return jsonify({'message': str(ex)}),500    
+
+    
