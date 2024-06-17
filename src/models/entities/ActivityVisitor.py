@@ -15,8 +15,7 @@ class ActivityVisitor(Visitor):
                     cursor.execute('call cambiarEstadoActividad(%s,%s)',(activity.idActividad,"Notificada"))
                     connection.commit()
                     print(type(activity.nombre))
-                    mensajeFormat = f"""Notificacion: La  actividad '{activity.nombre}' sera realizada el dia {activity.fechaRealizacion.strftime('%d/%m/%Y')}, 
-                    le agradecemos su participacion a esta en la siguiente direccion {activity.direccion}, esta es de indole {activity.tipo} y sera {activity.modalidad}. No se la pierda"""
+                    mensajeFormat = f"""Notificacion: La  actividad '{activity.nombre}' sera realizada el dia {activity.fechaRealizacion.strftime('%d/%m/%Y')},le agradecemos su participacion a esta en la siguiente direccion {activity.direccion}, esta es de indole {activity.tipo} y sera {activity.modalidad}. No se la pierda"""
                     cursor.execute('call addMensage(%s,%s,%s,%s)',("Sistema",mensajeFormat,activity.nombre,self.system_date.strftime('%Y-%m-%d')))
                     connection.commit()
                     cursor.execute('SELECT LAST_INSERT_ID()')
@@ -38,8 +37,7 @@ class ActivityVisitor(Visitor):
                                 cursor.execute('SELECT * FROM notificacionXrecordatorios where idRec= %s',(recordatorio.idFecRec))
                                 validar = cursor.fetchone()
                                 if validar ==None:
-                                    mensajeFormat = f"""Recordatorio: Se le recuerda que la actividad '{activity.nombre}' sera realizada el dia {activity.fechaRealizacion.strftime('%d/%m/%Y')}, 
-                                    le agradecemos su participacion de ante mano, esta sera en la siguiente direccion {activity.direccion} para mas informacion comunicarse con la escuela"""
+                                    mensajeFormat = f"""Recordatorio: Se le recuerda que la actividad '{activity.nombre}' sera realizada el dia {activity.fechaRealizacion.strftime('%d/%m/%Y')},le agradecemos su participacion de ante mano, esta sera en la siguiente direccion {activity.direccion} para mas informacion comunicarse con la escuela"""
                                     cursor.execute('call addMensage(%s,%s,%s,%s)',("Sistema",mensajeFormat,f"Recordatorio de actividad: {activity.nombre}",self.system_date.strftime('%Y-%m-%d')))
                                     connection.commit()
                                     cursor.execute('SELECT LAST_INSERT_ID()')
@@ -57,8 +55,7 @@ class ActivityVisitor(Visitor):
                     with connection.cursor() as cursor:
                         cursor.execute('call cambiarEstadoActividad(%s,%s)',(activity.idActividad,"Cancelada(Notificada)"))
                         connection.commit()
-                        mensajeFormat = f"""Notificacion de cancelacion: Se le avisa que la actividad '{activity.nombre}' ha sido cancelada, 
-                        le pedimos disculpas del caso, para mas informacion comunicarse con la escuela"""
+                        mensajeFormat = f"""Notificacion de cancelacion: Se le avisa que la actividad '{activity.nombre}' ha sido cancelada,le pedimos disculpas del caso, para mas informacion comunicarse con la escuela"""
                         cursor.execute('call addMensage(%s,%s,%s,%s)',("Sistema",mensajeFormat,f"Cancelacion de actividad: {activity.nombre}",self.system_date.strftime('%Y-%m-%d')))
                         connection.commit()
                         cursor.execute('SELECT LAST_INSERT_ID()')
