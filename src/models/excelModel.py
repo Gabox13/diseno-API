@@ -169,7 +169,7 @@ WHERE messageXEstudianteUsuario.valActive =1 AND messageXEstudianteUsuario.userE
 ORDER BY message.fechaGeneracion desc;""",(username,))
                 resultset = cursor.fetchall()
                 for row in resultset:
-                    mes = Message(row[7],row[1],row[2],row[9],row[5],row[4])
+                    mes = Message(row[7],row[1],row[2],row[8],row[5],row[4])
                     notis.append(mes.to_JSON())
             connection.close()
             return notis
