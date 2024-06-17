@@ -175,3 +175,17 @@ ORDER BY message.fechaGeneracion desc;""",(username,))
             return notis
         except Exception as ex:
             raise Exception(ex)
+    @classmethod
+    def updateContraEstudiante(self,correo, contra):
+        try:
+
+            connection = get_connection()
+            with connection.cursor() as cursor:
+                cursor.execute("""call updateContraseñaEstudiante(%s, %s);""", (correo, contra))
+                affected_rows = cursor.rowcount
+                connection.commit()
+                connection.commit()
+            connection.close()
+            return affected_rows
+        except Exception as ex:
+            raise Exception(ex)

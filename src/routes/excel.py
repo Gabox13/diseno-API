@@ -54,6 +54,22 @@ def recuperar_Notificaciones(usuario):
         notificaciones=excelModel.recuperar_notificaciones(usuario)
         return jsonify(notificaciones)
     except Exception as ex:
-        return jsonify({'message': str(ex)}),500    
+        return jsonify({'message': str(ex)}),500   
+@main.route('/update/contraEstudiante', methods=['POST'])
+def updateContraEstudiante():
+    try:
+        correo= request.json['username']
+        contra = request.json['contrasena']
+
+        affected_rows = excelModel.updateContraEstudiante(correo, contra)
+
+        if affected_rows > 0:
+            return jsonify(correo)
+        else:
+            return jsonify({'message': "Error on añadir Profesor"}),500
+    except Exception as ex:
+        return jsonify({'message': str(ex)}),500
+
+ 
 
     
