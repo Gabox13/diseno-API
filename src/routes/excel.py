@@ -55,7 +55,7 @@ def recuperar_Notificaciones(usuario):
         return jsonify(notificaciones)
     except Exception as ex:
         return jsonify({'message': str(ex)}),500   
-@main.route('/update/contraEstudiante', methods=['POST'])
+@main.route('/update/contraEstudiante', methods=['PUT'])
 def updateContraEstudiante():
     try:
         correo= request.json['username']
