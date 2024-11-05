@@ -5,10 +5,10 @@ from  pymysql import Error
 def get_connection():
     try:
         return pymysql.connect(
-            host='baseweb.c7cqs2suad72.us-east-2.rds.amazonaws.com',
+            host='database-diseno.cf42aq24umw7.us-west-1.rds.amazonaws.com',
             port= 3306,
             user='admin',
-            password='dgrf1234',
+            password='diseno1234',
             db= 'tecDB'
         )
     except Error as ex:
